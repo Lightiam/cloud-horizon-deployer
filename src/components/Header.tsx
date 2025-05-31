@@ -13,7 +13,7 @@ const Header = () => {
                 <Cloud className="h-8 w-8 text-emerald-500" />
                 <Zap className="h-4 w-4 text-yellow-400 absolute -top-1 -right-1" />
               </div>
-              <span className="text-xl font-bold text-white">CloudHorizon AI</span>
+              <span className="text-xl font-bold text-white">&lt;/&gt; Instanti8.dev</span>
             </div>
           </div>
           
