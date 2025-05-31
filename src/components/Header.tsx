@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { Cloud, Settings, User, Bell } from "lucide-react";
+import { Cloud, Settings, User, Zap } from "lucide-react";
 
 const Header = () => {
   return (
@@ -9,22 +9,21 @@ const Header = () => {
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
-              <Cloud className="h-8 w-8 text-emerald-500" />
-              <span className="text-xl font-bold text-white">CloudHorizon</span>
+              <div className="relative">
+                <Cloud className="h-8 w-8 text-emerald-500" />
+                <Zap className="h-4 w-4 text-yellow-400 absolute -top-1 -right-1" />
+              </div>
+              <span className="text-xl font-bold text-white">CloudHorizon AI</span>
             </div>
           </div>
           
           <nav className="hidden md:flex items-center space-x-6">
-            <a href="#" className="text-gray-300 hover:text-white transition-colors">Dashboard</a>
-            <a href="#" className="text-gray-300 hover:text-white transition-colors">Deployments</a>
-            <a href="#" className="text-gray-300 hover:text-white transition-colors">Projects</a>
-            <a href="#" className="text-gray-300 hover:text-white transition-colors">Analytics</a>
+            <a href="#" className="text-gray-300 hover:text-white transition-colors">Documentation</a>
+            <a href="#" className="text-gray-300 hover:text-white transition-colors">Examples</a>
+            <a href="#" className="text-gray-300 hover:text-white transition-colors">Templates</a>
           </nav>
 
           <div className="flex items-center space-x-4">
-            <Button variant="ghost" size="icon" className="text-gray-300 hover:text-white">
-              <Bell className="h-5 w-5" />
-            </Button>
             <Button variant="ghost" size="icon" className="text-gray-300 hover:text-white">
               <Settings className="h-5 w-5" />
             </Button>
