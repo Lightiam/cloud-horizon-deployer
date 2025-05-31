@@ -1,6 +1,7 @@
 
 import { Button } from "@/components/ui/button";
-import { Cloud, Settings, User, Zap } from "lucide-react";
+import { User } from "lucide-react";
+import EnvConfigModal from "@/components/EnvConfigModal";
 
 const Header = () => {
   return (
@@ -9,10 +10,6 @@ const Header = () => {
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
-              <div className="relative">
-                <Cloud className="h-8 w-8 text-emerald-500" />
-                <Zap className="h-4 w-4 text-yellow-400 absolute -top-1 -right-1" />
-              </div>
               <span className="text-xl font-bold text-white">&lt;/&gt; Instanti8.dev</span>
             </div>
           </div>
@@ -24,9 +21,7 @@ const Header = () => {
           </nav>
 
           <div className="flex items-center space-x-4">
-            <Button variant="ghost" size="icon" className="text-gray-300 hover:text-white">
-              <Settings className="h-5 w-5" />
-            </Button>
+            <EnvConfigModal />
             <Button variant="ghost" size="icon" className="text-gray-300 hover:text-white">
               <User className="h-5 w-5" />
             </Button>
