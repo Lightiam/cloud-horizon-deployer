@@ -1,7 +1,6 @@
 
 import { Button } from "@/components/ui/button";
 import { User } from "lucide-react";
-import EnvConfigModal from "@/components/EnvConfigModal";
 
 const Header = () => {
   return (
@@ -21,7 +20,6 @@ const Header = () => {
           </nav>
 
           <div className="flex items-center space-x-4">
-            <EnvConfigModal />
             <Button variant="ghost" size="icon" className="text-gray-300 hover:text-white">
               <User className="h-5 w-5" />
             </Button>

@@ -1,6 +1,10 @@
 
 import Header from "@/components/Header";
 import ChatInterface from "@/components/ChatInterface";
+import NewDeploymentModal from "@/components/NewDeploymentModal";
+import EnvConfigModal from "@/components/EnvConfigModal";
+import { Button } from "@/components/ui/button";
+import { Settings, Rocket } from "lucide-react";
 
 const Index = () => {
   return (
@@ -12,10 +16,15 @@ const Index = () => {
           <h1 className="text-4xl font-bold text-white mb-2">
             AI Infrastructure Assistant
           </h1>
-          <p className="text-gray-400 text-lg max-w-2xl">
+          <p className="text-gray-400 text-lg max-w-2xl mb-6">
             Describe your infrastructure needs in natural language and get ready-to-deploy 
             Infrastructure as Code (IaC) for AWS, Azure, and Google Cloud Platform.
           </p>
+          
+          <div className="flex flex-wrap gap-4 mb-8">
+            <EnvConfigModal />
+            <NewDeploymentModal />
+          </div>
         </div>
 
         <ChatInterface />

@@ -64,8 +64,9 @@ const EnvConfigModal = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="icon" className="text-gray-300 hover:text-white">
-          <Settings className="h-5 w-5" />
+        <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+          <Settings className="h-4 w-4 mr-2" />
+          Configure Environment
         </Button>
       </DialogTrigger>
       <DialogContent className="bg-gray-900 border-gray-700 text-white sm:max-w-[600px]">
