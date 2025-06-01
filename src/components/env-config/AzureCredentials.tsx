@@ -5,10 +5,9 @@ import { Eye, EyeOff } from "lucide-react";
 
 interface AzureCredentialsProps {
   credentials: {
+    secretKey: string;
     subscriptionId: string;
-    clientId: string;
-    clientSecret: string;
-    tenantId: string;
+    endpoint: string;
   };
   onCredentialsChange: (credentials: any) => void;
   showValues: boolean;
@@ -43,6 +42,16 @@ const AzureCredentials = ({
       </div>
       <div className="grid gap-4">
         <CredentialInput
+          id="azure-secret-key"
+          label="Secret Key"
+          value={credentials.secretKey}
+          onChange={(value) => handleChange('secretKey', value)}
+          placeholder="Secret key..."
+          isSecret={true}
+          showValues={showValues}
+          onToggleVisibility={onToggleVisibility}
+        />
+        <CredentialInput
           id="azure-subscription"
           label="Subscription ID"
           value={credentials.subscriptionId}
@@ -53,32 +62,11 @@ const AzureCredentials = ({
           onToggleVisibility={onToggleVisibility}
         />
         <CredentialInput
-          id="azure-client-id"
-          label="Client ID"
-          value={credentials.clientId}
-          onChange={(value) => handleChange('clientId', value)}
-          placeholder="Client ID..."
-          isSecret={true}
-          showValues={showValues}
-          onToggleVisibility={onToggleVisibility}
-        />
-        <CredentialInput
-          id="azure-client-secret"
-          label="Client Secret"
-          value={credentials.clientSecret}
-          onChange={(value) => handleChange('clientSecret', value)}
-          placeholder="Client secret..."
-          isSecret={true}
-          showValues={showValues}
-          onToggleVisibility={onToggleVisibility}
-        />
-        <CredentialInput
-          id="azure-tenant"
-          label="Tenant ID"
-          value={credentials.tenantId}
-          onChange={(value) => handleChange('tenantId', value)}
-          placeholder="Tenant ID..."
-          isSecret={true}
+          id="azure-endpoint"
+          label="Endpoint"
+          value={credentials.endpoint}
+          onChange={(value) => handleChange('endpoint', value)}
+          placeholder="https://your-endpoint.azure.com"
           showValues={showValues}
           onToggleVisibility={onToggleVisibility}
         />
