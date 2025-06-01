@@ -12,7 +12,7 @@ import {
   AlertTriangle,
   CheckCircle,
   XCircle,
-  Refresh
+  RefreshCw
 } from "lucide-react";
 import MetricsCard from "@/components/MetricsCard";
 import DeploymentCard from "@/components/DeploymentCard";
@@ -46,7 +46,7 @@ const Dashboard = () => {
             disabled={isRefreshing}
             className="bg-emerald-600 hover:bg-emerald-700"
           >
-            <Refresh className={`h-4 w-4 mr-2 ${isRefreshing ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`h-4 w-4 mr-2 ${isRefreshing ? 'animate-spin' : ''}`} />
             Refresh
           </Button>
         </div>
