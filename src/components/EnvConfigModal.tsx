@@ -22,9 +22,11 @@ const EnvConfigModal = () => {
       region: localStorage.getItem('AWS_DEFAULT_REGION') || 'us-west-2'
     },
     azure: {
+      clientId: localStorage.getItem('AZURE_CLIENT_ID') || '',
       secretKey: localStorage.getItem('AZURE_SECRET_KEY') || '',
+      tenantId: localStorage.getItem('AZURE_TENANT_ID') || '',
       subscriptionId: localStorage.getItem('AZURE_SUBSCRIPTION_ID') || '',
-      endpoint: localStorage.getItem('AZURE_ENDPOINT') || ''
+      endpoint: localStorage.getItem('AZURE_ENDPOINT') || 'https://management.azure.com'
     },
     gcp: {
       projectId: localStorage.getItem('GCP_PROJECT_ID') || '',
@@ -40,7 +42,9 @@ const EnvConfigModal = () => {
     localStorage.setItem('AWS_DEFAULT_REGION', envVars.aws.region);
 
     // Save Azure credentials
+    localStorage.setItem('AZURE_CLIENT_ID', envVars.azure.clientId);
     localStorage.setItem('AZURE_SECRET_KEY', envVars.azure.secretKey);
+    localStorage.setItem('AZURE_TENANT_ID', envVars.azure.tenantId);
     localStorage.setItem('AZURE_SUBSCRIPTION_ID', envVars.azure.subscriptionId);
     localStorage.setItem('AZURE_ENDPOINT', envVars.azure.endpoint);
 

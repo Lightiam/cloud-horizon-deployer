@@ -5,7 +5,9 @@ import { Eye, EyeOff } from "lucide-react";
 
 interface AzureCredentialsProps {
   credentials: {
+    clientId: string;
     secretKey: string;
+    tenantId: string;
     subscriptionId: string;
     endpoint: string;
   };
@@ -42,11 +44,31 @@ const AzureCredentials = ({
       </div>
       <div className="grid gap-4">
         <CredentialInput
+          id="azure-client-id"
+          label="Client ID"
+          value={credentials.clientId}
+          onChange={(value) => handleChange('clientId', value)}
+          placeholder="Client ID..."
+          isSecret={true}
+          showValues={showValues}
+          onToggleVisibility={onToggleVisibility}
+        />
+        <CredentialInput
           id="azure-secret-key"
-          label="Secret Key"
+          label="Client Secret"
           value={credentials.secretKey}
           onChange={(value) => handleChange('secretKey', value)}
-          placeholder="Secret key..."
+          placeholder="Client secret..."
+          isSecret={true}
+          showValues={showValues}
+          onToggleVisibility={onToggleVisibility}
+        />
+        <CredentialInput
+          id="azure-tenant-id"
+          label="Tenant ID"
+          value={credentials.tenantId}
+          onChange={(value) => handleChange('tenantId', value)}
+          placeholder="Tenant ID..."
           isSecret={true}
           showValues={showValues}
           onToggleVisibility={onToggleVisibility}
@@ -66,7 +88,7 @@ const AzureCredentials = ({
           label="Endpoint"
           value={credentials.endpoint}
           onChange={(value) => handleChange('endpoint', value)}
-          placeholder="https://your-endpoint.azure.com"
+          placeholder="https://management.azure.com"
           showValues={showValues}
           onToggleVisibility={onToggleVisibility}
         />

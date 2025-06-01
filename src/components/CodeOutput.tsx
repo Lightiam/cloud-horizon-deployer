@@ -61,9 +61,11 @@ const CodeOutput = ({ messages }: CodeOutputProps) => {
 
     // Get Azure credentials from localStorage
     const azureCredentials = {
+      clientId: localStorage.getItem('AZURE_CLIENT_ID') || '',
       secretKey: localStorage.getItem('AZURE_SECRET_KEY') || '',
+      tenantId: localStorage.getItem('AZURE_TENANT_ID') || '',
       subscriptionId: localStorage.getItem('AZURE_SUBSCRIPTION_ID') || '',
-      endpoint: localStorage.getItem('AZURE_ENDPOINT') || ''
+      endpoint: localStorage.getItem('AZURE_ENDPOINT') || 'https://management.azure.com'
     };
 
     setIsDeploying(true);
