@@ -1,4 +1,3 @@
-
 interface DeploymentConfig {
   provider: 'aws' | 'azure' | 'gcp';
   iacCode: string;
@@ -63,6 +62,8 @@ class DeploymentService {
   }
 
   private async executeAzureDeployment(iacCode: string, credentials: any, deploymentId: string) {
+    console.log(`Attempting to connect to Azure endpoint: ${credentials.endpoint}`);
+    console.log(`Using Subscription ID: ${credentials.subscriptionId}`);
     // Simulate deployment steps (in real implementation, this would use Azure CLI/Terraform)
     console.log(`Deployment ${deploymentId}: Setting up Azure provider...`);
     await this.delay(1000);
