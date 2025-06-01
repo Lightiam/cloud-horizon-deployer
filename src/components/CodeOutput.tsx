@@ -59,6 +59,13 @@ const CodeOutput = ({ messages }: CodeOutputProps) => {
       return;
     }
 
+    // Get AWS credentials from localStorage
+    const awsCredentials = {
+      accessKeyId: localStorage.getItem('AWS_ACCESS_KEY_ID') || '',
+      secretAccessKey: localStorage.getItem('AWS_SECRET_ACCESS_KEY') || '',
+      region: localStorage.getItem('AWS_DEFAULT_REGION') || 'us-west-2'
+    };
+
     // Get Azure credentials from localStorage
     const azureCredentials = {
       clientId: localStorage.getItem('AZURE_CLIENT_ID') || '',
@@ -68,22 +75,59 @@ const CodeOutput = ({ messages }: CodeOutputProps) => {
       endpoint: localStorage.getItem('AZURE_ENDPOINT') || 'https://management.azure.com'
     };
 
+    // Get GCP credentials from localStorage
+    const gcpCredentials = {
+      projectId: localStorage.getItem('GCP_PROJECT_ID') || '',
+      clientEmail: localStorage.getItem('GCP_CLIENT_EMAIL') || '',
+      privateKey: localStorage.getItem('GCP_PRIVATE_KEY') || ''
+    };
+
     setIsDeploying(true);
     setDeploymentResult(null);
 
     try {
-      const result = await deploymentService.deployToAzure({
-        provider: 'azure',
-        iacCode: latestIaCMessage.iacCode,
-        credentials: azureCredentials
-      });
+      let result;
+      const code = latestIaCMessage.iacCode;
+      
+      const hasAzureCredentials = azureCredentials.clientId && azureCredentials.secretKey && azureCredentials.tenantId && azureCredentials.subscriptionId;
+      const hasAwsCredentials = awsCredentials.accessKeyId && awsCredentials.secretAccessKey;
+      const hasGcpCredentials = gcpCredentials.projectId && gcpCredentials.clientEmail && gcpCredentials.privateKey;
+      
+      if ((code.toLowerCase().includes('docker') || code.toLowerCase().includes('container')) && hasAzureCredentials) {
+        result = await deploymentService.deployToAzure({
+          provider: 'azure',
+          iacCode: code,
+          credentials: azureCredentials
+        });
+      } else if ((code.toLowerCase().includes('aws') || code.toLowerCase().includes('s3') || code.toLowerCase().includes('ec2')) && !code.toLowerCase().includes('docker') && !code.toLowerCase().includes('container')) {
+        result = await deploymentService.deployToAWS({
+          provider: 'aws',
+          iacCode: code,
+          credentials: awsCredentials
+        });
+      } else if (code.toLowerCase().includes('gcp') || code.toLowerCase().includes('google') || code.toLowerCase().includes('storage_bucket')) {
+        result = await deploymentService.deployToGCP({
+          provider: 'gcp',
+          iacCode: code,
+          credentials: gcpCredentials
+        });
+      } else {
+        result = await deploymentService.deployToAzure({
+          provider: 'azure',
+          iacCode: code,
+          credentials: azureCredentials
+        });
+      }
 
       setDeploymentResult(result);
       
       if (result.success) {
+        const providerName = ((code.toLowerCase().includes('docker') || code.toLowerCase().includes('container')) && hasAzureCredentials) ? 'Azure' :
+                           code.toLowerCase().includes('aws') ? 'AWS' : 
+                           code.toLowerCase().includes('gcp') || code.toLowerCase().includes('google') ? 'GCP' : 'Azure';
         toast({
           title: "Deployment completed!",
-          description: "Your infrastructure has been deployed to Azure successfully.",
+          description: `Your infrastructure has been deployed to ${providerName} successfully.`,
         });
       } else {
         toast({
@@ -135,7 +179,7 @@ const CodeOutput = ({ messages }: CodeOutputProps) => {
                   className="bg-emerald-600 hover:bg-emerald-700 text-white"
                 >
                   <Rocket className="h-4 w-4 mr-1" />
-                  Deploy to Azure
+                  Deploy to Cloud
                 </Button>
               </div>
             )}

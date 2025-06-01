@@ -17,6 +17,27 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      buffer: 'buffer',
+      events: 'events',
+      stream: 'stream-browserify',
+      util: 'util'
     },
   },
+  define: {
+    global: 'globalThis',
+    'process.env': {},
+    'process.version': '"v18.0.0"',
+    'process.platform': '"browser"'
+  },
+  optimizeDeps: {
+    include: [
+      'buffer',
+      'events', 
+      'stream-browserify',
+      'util',
+      '@aws-sdk/client-ec2', 
+      '@aws-sdk/client-s3', 
+      '@google-cloud/storage'
+    ]
+  }
 }));
