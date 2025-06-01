@@ -4,9 +4,12 @@ import ChatInterface from "@/components/ChatInterface";
 import NewDeploymentModal from "@/components/NewDeploymentModal";
 import EnvConfigModal from "@/components/EnvConfigModal";
 import { Button } from "@/components/ui/button";
-import { Settings, Rocket } from "lucide-react";
+import { Settings, Rocket, BarChart3 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Index = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-900 to-emerald-900/20">
       <Header />
@@ -24,6 +27,13 @@ const Index = () => {
           <div className="flex flex-wrap gap-4 mb-8">
             <EnvConfigModal />
             <NewDeploymentModal />
+            <Button
+              onClick={() => navigate('/dashboard')}
+              className="bg-blue-600 hover:bg-blue-700 text-white"
+            >
+              <BarChart3 className="h-4 w-4 mr-2" />
+              View Dashboard
+            </Button>
           </div>
         </div>
 
