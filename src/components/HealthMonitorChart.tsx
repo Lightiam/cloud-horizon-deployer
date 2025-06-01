@@ -79,7 +79,7 @@ const HealthMonitorChart = () => {
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <Card className="bg-gray-800/50 border-gray-700">
         <CardHeader>
-          <CardTitle className="text-white">Response Time & Error Rate</CardTitle>
+          <CardTitle className="text-white">Response Time</CardTitle>
         </CardHeader>
         <CardContent>
           <ChartContainer config={chartConfig} className="h-[300px]">
@@ -98,14 +98,6 @@ const HealthMonitorChart = () => {
                   stroke={chartConfig.responseTime.color}
                   strokeWidth={2}
                   dot={false}
-                />
-                <Line 
-                  type="monotone" 
-                  dataKey="errorRate" 
-                  stroke={chartConfig.errorRate.color}
-                  strokeWidth={2}
-                  dot={false}
-                  yAxisId="right"
                 />
               </LineChart>
             </ResponsiveContainer>
@@ -139,7 +131,7 @@ const HealthMonitorChart = () => {
                 <Area
                   type="monotone"
                   dataKey="memoryUsage"
-                  stackId="2"
+                  stackId="1"
                   stroke={chartConfig.memoryUsage.color}
                   fill={chartConfig.memoryUsage.color}
                   fillOpacity={0.6}
