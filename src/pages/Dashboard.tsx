@@ -11,12 +11,16 @@ import {
   AlertTriangle,
   CheckCircle,
   XCircle,
-  RefreshCw
+  RefreshCw,
+  Globe,
+  FileText
 } from "lucide-react";
 import MetricsCard from "@/components/MetricsCard";
 import DeploymentCard from "@/components/DeploymentCard";
 import HealthMonitorChart from "@/components/HealthMonitorChart";
 import DeploymentHistory from "@/components/DeploymentHistory";
+import MultiCloudOverview from "@/components/MultiCloudOverview";
+import InfrastructureImport from "@/components/InfrastructureImport";
 
 const Dashboard = () => {
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -83,15 +87,21 @@ const Dashboard = () => {
         </div>
 
         <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 bg-gray-800">
+          <TabsList className="grid w-full grid-cols-6 bg-gray-800">
             <TabsTrigger value="overview" className="data-[state=active]:bg-emerald-600">
               Overview
+            </TabsTrigger>
+            <TabsTrigger value="multicloud" className="data-[state=active]:bg-emerald-600">
+              Multi-Cloud
             </TabsTrigger>
             <TabsTrigger value="deployments" className="data-[state=active]:bg-emerald-600">
               Deployments
             </TabsTrigger>
+            <TabsTrigger value="import" className="data-[state=active]:bg-emerald-600">
+              Import
+            </TabsTrigger>
             <TabsTrigger value="health" className="data-[state=active]:bg-emerald-600">
-              Health Monitoring
+              Health
             </TabsTrigger>
             <TabsTrigger value="history" className="data-[state=active]:bg-emerald-600">
               History
@@ -111,6 +121,14 @@ const Dashboard = () => {
                     <Badge className="bg-green-500 text-white">Operational</Badge>
                   </div>
                   <div className="flex items-center justify-between">
+                    <span className="text-gray-300">AWS Services</span>
+                    <Badge className="bg-green-500 text-white">Operational</Badge>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-300">GCP Services</span>
+                    <Badge className="bg-gray-500 text-white">Disconnected</Badge>
+                  </div>
+                  <div className="flex items-center justify-between">
                     <span className="text-gray-300">Database</span>
                     <Badge className="bg-green-500 text-white">Healthy</Badge>
                   </div>
@@ -127,6 +145,10 @@ const Dashboard = () => {
             </div>
           </TabsContent>
 
+          <TabsContent value="multicloud" className="space-y-6">
+            <MultiCloudOverview />
+          </TabsContent>
+
           <TabsContent value="deployments" className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <DeploymentCard
@@ -141,7 +163,7 @@ const Dashboard = () => {
               <DeploymentCard
                 projectName="API Gateway"
                 environment="Production"
-                provider="Azure"
+                provider="AWS"
                 status="deployed"
                 lastDeployed="1 day ago"
                 buildTime="2m 18s"
@@ -154,7 +176,28 @@ const Dashboard = () => {
                 lastDeployed="5 minutes ago"
                 buildTime="1m 45s"
               />
+              <DeploymentCard
+                projectName="Static Site"
+                environment="Production"
+                provider="Netlify"
+                status="deployed"
+                url="https://mysite.netlify.app"
+                lastDeployed="3 hours ago"
+                buildTime="1m 12s"
+              />
+              <DeploymentCard
+                projectName="Microservice"
+                environment="Development"
+                provider="Replit"
+                status="deployed"
+                lastDeployed="30 minutes ago"
+                buildTime="45s"
+              />
             </div>
+          </TabsContent>
+
+          <TabsContent value="import" className="space-y-6">
+            <InfrastructureImport />
           </TabsContent>
 
           <TabsContent value="health" className="space-y-6">

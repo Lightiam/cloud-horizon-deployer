@@ -21,7 +21,7 @@ const Index = () => {
           </h1>
           <p className="text-gray-400 text-lg max-w-2xl mb-6">
             Describe your infrastructure needs in natural language and get ready-to-deploy 
-            Infrastructure as Code (IaC) for AWS, Azure, and Google Cloud Platform.
+            Infrastructure as Code (IaC) for 11+ cloud providers including AWS, Azure, GCP, Netlify, Replit, and more.
           </p>
           
           <div className="flex flex-wrap gap-4 mb-8">

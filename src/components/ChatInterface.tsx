@@ -36,94 +36,43 @@ const ChatInterface = () => {
     setInput("");
     setIsLoading(true);
 
-    // Simulate AI processing
-    setTimeout(() => {
+    try {
+      const aiResponse = await generateAIResponse(input);
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         type: "assistant",
-        content: "I'll generate the Infrastructure as Code for your requirements.",
+        content: aiResponse.explanation || "I'll generate the Infrastructure as Code for your requirements.",
         timestamp: new Date(),
-        iacCode: generateSampleIaC(input),
+        iacCode: aiResponse.code,
         provider: "terraform",
       };
 
       setMessages(prev => [...prev, assistantMessage]);
       setIsLoading(false);
-    }, 2000);
+    } catch (error) {
+      console.error('Error generating AI response:', error);
+      const assistantMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        type: "assistant",
+        content: "I encountered an issue generating the code. Please try again or configure your GROQ API key for enhanced AI assistance.",
+        timestamp: new Date(),
+        iacCode: "# Error generating code\n# Please try again or configure GROQ API key",
+        provider: "terraform",
+      };
+
+      setMessages(prev => [...prev, assistantMessage]);
+      setIsLoading(false);
+    }
   };
 
-  const generateSampleIaC = (userInput: string): string => {
-    // Simple keyword-based IaC generation (placeholder for actual AI/RAG)
-    if (userInput.toLowerCase().includes("s3") || userInput.toLowerCase().includes("storage")) {
-      return `# AWS S3 Bucket Configuration
-resource "aws_s3_bucket" "main_bucket" {
-  bucket = "my-app-storage-bucket"
-  
-  tags = {
-    Name        = "Main Storage"
-    Environment = "production"
-  }
-}
-
-resource "aws_s3_bucket_versioning" "main_bucket_versioning" {
-  bucket = aws_s3_bucket.main_bucket.id
-  versioning_configuration {
-    status = "Enabled"
-  }
-}
-
-resource "aws_s3_bucket_server_side_encryption_configuration" "main_bucket_encryption" {
-  bucket = aws_s3_bucket.main_bucket.id
-
-  rule {
-    apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256"
-    }
-  }
-}`;
-    }
-
-    if (userInput.toLowerCase().includes("ec2") || userInput.toLowerCase().includes("server")) {
-      return `# AWS EC2 Instance Configuration
-resource "aws_instance" "web_server" {
-  ami           = "ami-0c02fb55956c7d316"
-  instance_type = "t3.medium"
-  
-  vpc_security_group_ids = [aws_security_group.web_sg.id]
-  
-  tags = {
-    Name = "Web Server"
-    Type = "Production"
-  }
-}
-
-resource "aws_security_group" "web_sg" {
-  name_prefix = "web-server-sg"
-  
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  
-  ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}`;
-    }
-
-    return `# Generated Infrastructure as Code
+  const generateAIResponse = async (userInput: string): Promise<{code: string, explanation: string}> => {
+    try {
+      const { aiChatService } = await import('@/services/aiChatService');
+      return await aiChatService.generateInfrastructureCode(userInput, 'aws', 'terraform');
+    } catch (error) {
+      console.error('AI service error:', error);
+      return {
+        code: `# Generated Infrastructure as Code
 # Based on your requirements: "${userInput}"
 
 terraform {
@@ -140,7 +89,10 @@ provider "aws" {
 }
 
 # Your infrastructure components will be generated here
-# Please provide more specific requirements for detailed IaC`;
+# Please configure GROQ API key for AI-powered code generation`,
+        explanation: 'Basic infrastructure template. Configure GROQ API key for enhanced AI assistance.'
+      };
+    }
   };
 
   return (

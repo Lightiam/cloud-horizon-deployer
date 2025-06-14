@@ -53,6 +53,14 @@ const NewDeploymentModal = () => {
                   <SelectItem value="aws">🟠 AWS</SelectItem>
                   <SelectItem value="azure">🔵 Azure</SelectItem>
                   <SelectItem value="gcp">🔴 Google Cloud</SelectItem>
+                  <SelectItem value="netlify">🟢 Netlify</SelectItem>
+                  <SelectItem value="replit">🟣 Replit</SelectItem>
+                  <SelectItem value="vercel">⚫ Vercel</SelectItem>
+                  <SelectItem value="digitalocean">🔵 DigitalOcean</SelectItem>
+                  <SelectItem value="linode">🟢 Linode</SelectItem>
+                  <SelectItem value="vultr">🔵 Vultr</SelectItem>
+                  <SelectItem value="heroku">🟣 Heroku</SelectItem>
+                  <SelectItem value="railway">⚫ Railway</SelectItem>
                 </SelectContent>
               </Select>
             </div>

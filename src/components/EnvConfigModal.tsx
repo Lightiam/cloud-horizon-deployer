@@ -6,13 +6,17 @@ import { Settings } from "lucide-react";
 import AwsCredentials from "./env-config/AwsCredentials";
 import AzureCredentials from "./env-config/AzureCredentials";
 import GcpCredentials from "./env-config/GcpCredentials";
+import NetlifyCredentials from "./env-config/NetlifyCredentials";
+import ReplitCredentials from "./env-config/ReplitCredentials";
 
 const EnvConfigModal = () => {
   const [open, setOpen] = useState(false);
   const [showValues, setShowValues] = useState({
     aws: false,
     azure: false,
-    gcp: false
+    gcp: false,
+    netlify: false,
+    replit: false
   });
 
   const [envVars, setEnvVars] = useState({
@@ -32,6 +36,14 @@ const EnvConfigModal = () => {
       projectId: localStorage.getItem('GCP_PROJECT_ID') || '',
       clientEmail: localStorage.getItem('GCP_CLIENT_EMAIL') || '',
       privateKey: localStorage.getItem('GCP_PRIVATE_KEY') || ''
+    },
+    netlify: {
+      accessToken: localStorage.getItem('NETLIFY_ACCESS_TOKEN') || '',
+      siteId: localStorage.getItem('NETLIFY_SITE_ID') || ''
+    },
+    replit: {
+      token: localStorage.getItem('REPLIT_TOKEN') || '',
+      username: localStorage.getItem('REPLIT_USERNAME') || ''
     }
   });
 
@@ -53,17 +65,25 @@ const EnvConfigModal = () => {
     localStorage.setItem('GCP_CLIENT_EMAIL', envVars.gcp.clientEmail);
     localStorage.setItem('GCP_PRIVATE_KEY', envVars.gcp.privateKey);
 
+    // Save Netlify credentials
+    localStorage.setItem('NETLIFY_ACCESS_TOKEN', envVars.netlify.accessToken);
+    localStorage.setItem('NETLIFY_SITE_ID', envVars.netlify.siteId);
+
+    // Save Replit credentials
+    localStorage.setItem('REPLIT_TOKEN', envVars.replit.token);
+    localStorage.setItem('REPLIT_USERNAME', envVars.replit.username);
+
     setOpen(false);
   };
 
-  const toggleShowValues = (provider: 'aws' | 'azure' | 'gcp') => {
+  const toggleShowValues = (provider: 'aws' | 'azure' | 'gcp' | 'netlify' | 'replit') => {
     setShowValues(prev => ({
       ...prev,
       [provider]: !prev[provider]
     }));
   };
 
-  const handleCredentialsChange = (provider: 'aws' | 'azure' | 'gcp', credentials: any) => {
+  const handleCredentialsChange = (provider: 'aws' | 'azure' | 'gcp' | 'netlify' | 'replit', credentials: any) => {
     setEnvVars(prev => ({
       ...prev,
       [provider]: credentials
@@ -84,10 +104,12 @@ const EnvConfigModal = () => {
         </DialogHeader>
         
         <Tabs defaultValue="aws" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 bg-gray-800">
+          <TabsList className="grid w-full grid-cols-5 bg-gray-800">
             <TabsTrigger value="aws" className="data-[state=active]:bg-gray-700">🟠 AWS</TabsTrigger>
             <TabsTrigger value="azure" className="data-[state=active]:bg-gray-700">🔵 Azure</TabsTrigger>
             <TabsTrigger value="gcp" className="data-[state=active]:bg-gray-700">🔴 GCP</TabsTrigger>
+            <TabsTrigger value="netlify" className="data-[state=active]:bg-gray-700">🟢 Netlify</TabsTrigger>
+            <TabsTrigger value="replit" className="data-[state=active]:bg-gray-700">🟣 Replit</TabsTrigger>
           </TabsList>
           
           <TabsContent value="aws">
@@ -114,6 +136,24 @@ const EnvConfigModal = () => {
               onCredentialsChange={(creds) => handleCredentialsChange('gcp', creds)}
               showValues={showValues.gcp}
               onToggleVisibility={() => toggleShowValues('gcp')}
+            />
+          </TabsContent>
+          
+          <TabsContent value="netlify">
+            <NetlifyCredentials
+              credentials={envVars.netlify}
+              onCredentialsChange={(creds) => handleCredentialsChange('netlify', creds)}
+              showValues={showValues.netlify}
+              onToggleVisibility={() => toggleShowValues('netlify')}
+            />
+          </TabsContent>
+          
+          <TabsContent value="replit">
+            <ReplitCredentials
+              credentials={envVars.replit}
+              onCredentialsChange={(creds) => handleCredentialsChange('replit', creds)}
+              showValues={showValues.replit}
+              onToggleVisibility={() => toggleShowValues('replit')}
             />
           </TabsContent>
         </Tabs>
